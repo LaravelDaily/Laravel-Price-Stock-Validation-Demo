@@ -18,6 +18,7 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('orders/create', [\App\Http\Controllers\OrderController::class, 'create'])->name('orders.create');
+Route::post('orders', [\App\Http\Controllers\OrderController::class, 'store'])->name('orders.store');
 
 Route::middleware('auth')->group(function () {
     Route::get('profile', [\App\Http\Controllers\ProfileController::class, 'show'])->name('profile.show');

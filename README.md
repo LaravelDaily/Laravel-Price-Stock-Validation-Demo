@@ -1,12 +1,8 @@
-## Laravel Breeze: Tailwind Pages Skeleton
+## Laravel Price Stock Validation Demo
 
-Laravel boilerplate repository to create simple demo-projects. It allows to quickly add new routes/pages, and has examples of a table page, and a form page.
+Quick demo of a custom validation rule in Laravel.
 
-It uses the Starter Kit [Laravel Breeze](https://github.com/laravel/breeze) based on Tailwind framework.
-
-![Laravel Breeze Table page](https://laraveldaily.com/wp-content/uploads/2021/09/Screenshot-2021-09-19-at-09.51.38.png)
-
-![Laravel Breeze Form page](https://laraveldaily.com/wp-content/uploads/2021/09/Screenshot-2021-09-19-at-09.51.50.png)
+![Laravel new order page](https://laraveldaily.com/uploads/2022/12/Screenshot 2022-12-29 at 11.17.40.png)
 
 -----
 
@@ -17,14 +13,14 @@ It uses the Starter Kit [Laravel Breeze](https://github.com/laravel/breeze) base
 - Run `composer install`
 - Run `php artisan key:generate`
 - Run `php artisan migrate --seed` (it has some seeded data for your testing)
-- That's it: launch the main URL
+- That's it: launch the main URL and navigate to New Order on top
 
 
 ---
 
-## More from our LaravelDaily Team
+## More from our Laravel Daily Team
 
-- Enroll in our [Laravel Online Courses](https://laraveldaily.teachable.com/)
+- Enroll in our [Laravel Daily Courses](https://laraveldaily.com/courses)
 - Check out our adminpanel generator [QuickAdminPanel](https://quickadminpanel.com)
 - Purchase our [Livewire Kit](https://livewirekit.com)
 - Subscribe to our [YouTube channel Laravel Daily](https://www.youtube.com/channel/UCTuplgOBi6tJIlesIboymGA)

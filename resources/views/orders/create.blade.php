@@ -40,7 +40,7 @@
                                             ${{ number_format($product->price, 2) }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
-                                            <input type="number" name="products[{{ $product->id }}]" value="0" />
+                                            <input type="number" name="products[{{ $product->id }}]" value="{{ old('products.' . $product->id, 0) }}" />
                                         </td>
                                     </tr>
                                 @endforeach

@@ -2,7 +2,7 @@
 
 Quick demo of a custom validation rule in Laravel.
 
-![Laravel new order page](https://laraveldaily.com/uploads/2022/12/Screenshot 2022-12-29 at 11.17.40.png)
+![Laravel new order page](https://laraveldaily.com/uploads/2022/12/laravel-price-stock-demo.png)
 
 -----
 

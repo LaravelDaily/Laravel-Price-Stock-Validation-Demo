@@ -10,6 +10,8 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="overflow-hidden overflow-x-auto p-6 bg-white border-b border-gray-200">
                     <div class="min-w-full align-middle">
+                        <x-validation-errors class="mb-4" :errors="$errors" />
+
                         <form action="{{ route('orders.store') }}" method="POST">
                             @csrf
                             <table class="min-w-full divide-y divide-gray-200 border mb-4">
@@ -29,6 +31,7 @@
 
                                 <tbody class="bg-white divide-y divide-gray-200 divide-solid">
                                 @foreach($products as $product)
+                                    <input type="hidden" name="prices[{{ $product->id }}]" value="{{ $product->price }}" />
                                     <tr class="bg-white">
                                         <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
                                             {{ $product->name }}
@@ -37,7 +40,7 @@
                                             ${{ number_format($product->price, 2) }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
-                                            <input type="number" value="0" />
+                                            <input type="number" name="products[{{ $product->id }}]" value="0" />
                                         </td>
                                     </tr>
                                 @endforeach

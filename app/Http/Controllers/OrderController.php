@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\Product;
+use App\Rules\ProductStockPriceRule;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -17,6 +18,9 @@ class OrderController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'products' => new ProductStockPriceRule(),
+        ]);
 //        $order = Order::create();
 //        foreach (something) {
 //            $order->products()->create($productData);

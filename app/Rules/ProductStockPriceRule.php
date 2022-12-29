@@ -3,10 +3,33 @@
 namespace App\Rules;
 
 use App\Models\Product;
+use Illuminate\Contracts\Validation\DataAwareRule;
 use Illuminate\Contracts\Validation\InvokableRule;
 
-class ProductStockPriceRule implements InvokableRule
+class ProductStockPriceRule implements InvokableRule, DataAwareRule
 {
+    /**
+     * All of the data under validation.
+     *
+     * @var array
+     */
+    protected array $data = [];
+
+    // ...
+
+    /**
+     * Set the data under validation.
+     *
+     * @param  array  $data
+     * @return $this
+     */
+    public function setData($data)
+    {
+        $this->data = $data;
+
+        return $this;
+    }
+
     /**
      * Run the validation rule.
      *
@@ -32,6 +55,11 @@ class ProductStockPriceRule implements InvokableRule
             }
 
             // Check price
+            if ($DBProducts[$productID]->price != $this->data['prices'][$productID]) {
+                $errorText .= 'Sorry, the price of ' . $DBProducts[$productID]->name . ' has changed. 
+                    Old price: $' . number_format($this->data['prices'][$productID], 2) . ', 
+                    new price: $' . number_format($DBProducts[$productID]->price, 2) . '. ';
+            }
         }
 
         if ($errorText != '') {

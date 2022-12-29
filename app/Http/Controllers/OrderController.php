@@ -21,9 +21,7 @@ class OrderController extends Controller
         $request->validate([
             'products' => new ProductStockPriceRule(),
         ]);
-//        $order = Order::create();
-//        foreach (something) {
-//            $order->products()->create($productData);
-//        }
+
+        // ... Create the order and more
     }
 }

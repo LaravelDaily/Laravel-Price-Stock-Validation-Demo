@@ -1,7 +1,17 @@
 <div>
     <form action="{{ route('orders.store') }}" method="POST">
         @csrf
-        <table class="min-w-full divide-y divide-gray-200 border mb-4">
+        <table class="min-w-full divide-y divide-gray-200 border mb-4"
+            x-data="{
+                products: @js($products),
+                items: {},
+                totalPrice: 0,
+                updateTotal: function(productId, quantity) {
+                    this.items[productId] = this.products.find(p => p.id === productId).price * quantity;
+                    this.totalPrice = Object.values(this.items).reduce((a, b) => a + b, 0);
+                  }
+            }"
+        >
             <thead>
                 <tr>
                     <th class="px-6 py-3 bg-gray-50 text-left">
@@ -26,7 +36,7 @@
                             ${{ number_format($product->price, 2) }}
                         </td>
                         <td class="px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
-                            <input wire:change="updateTotalPrice($event.target.value, {{ $product->id }})" wire:key="product.{{ $product->id }}" type="number" name="products[{{ $product->id }}]" value="{{ old('products.' . $product->id, 0) }}" min="0" />
+                            <input @click="updateTotal({{ $product->id }}, $event.target.value)" type="number" name="products[{{ $product->id }}]" value="{{ old('products.' . $product->id, 0) }}" min="0" />
                         </td>
                     </tr>
                 @endforeach
@@ -34,7 +44,7 @@
             <tfoot>
                 <tr>
                     <th class="px-6 py-4" colspan="3">
-                        <span class="font-semibold">Total price: {{ $totalPrice }}</span>
+                        <span class="font-semibold">Total price: <span x-text="'$' + totalPrice.toFixed(2)"></span></span>
                     </th>
                 </tr>
             </tfoot>

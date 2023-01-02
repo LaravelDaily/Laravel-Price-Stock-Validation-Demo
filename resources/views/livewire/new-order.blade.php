@@ -1,5 +1,9 @@
 <div>
-    <form action="{{ route('orders.store') }}" method="POST">
+    @error('items')
+        <span class="text-red-600">{{ $message }}</span>
+    @enderror
+
+    <form wire:click.prevent="submit" method="POST" class="mt-4">
         @csrf
         <table class="min-w-full divide-y divide-gray-200 border mb-4"
             x-data="{
@@ -27,7 +31,7 @@
             </thead>
             <tbody class="bg-white divide-y divide-gray-200 divide-solid">
                 @foreach($products as $product)
-                    <input type="hidden" name="prices[{{ $product->id }}]" value="{{ $product->price }}" />
+                    <input wire:model="prices.{{ $product->id }}" type="hidden" />
                     <tr class="bg-white">
                         <td class="px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
                             {{ $product->name }}
@@ -36,7 +40,7 @@
                             ${{ number_format($product->price, 2) }}
                         </td>
                         <td class="px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
-                            <input @click="updateTotal({{ $product->id }}, $event.target.value)" type="number" name="products[{{ $product->id }}]" value="{{ old('products.' . $product->id, 0) }}" min="0" />
+                            <input wire:model="items.{{ $product->id }}" @click="updateTotal({{ $product->id }}, $event.target.value)" type="number" min="0" />
                         </td>
                     </tr>
                 @endforeach

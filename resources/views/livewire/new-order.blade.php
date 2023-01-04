@@ -4,28 +4,28 @@
     @enderror
 
     <form wire:click.prevent="submit" method="POST" class="mt-4">
-        @csrf
-        <table class="min-w-full divide-y divide-gray-200 border mb-4"
-            x-data="{
-                products: @js($products),
-                items: {},
-                totalPrice: 0,
-                updateTotal: function(productId, quantity) {
-                    this.items[productId] = this.products.find(p => p.id === productId).price * quantity;
-                    this.totalPrice = Object.values(this.items).reduce((a, b) => a + b, 0);
-                  }
-            }"
-        >
+        <table class="mb-4 min-w-full border divide-y divide-gray-200"
+               wire:poll.10s="checkStock"
+               x-data="{
+                   products: @js($products),
+                   items: {},
+                   totalPrice: @entangle('totalPrice'),
+                   updateTotal: function(productId, quantity) {
+                       this.items[productId] = this.products.find(p => p.id === productId).price * quantity;
+                       this.totalPrice = Object.values(this.items).reduce((a, b) => a + b, 0);
+                   }
+               }"
+            >
             <thead>
                 <tr>
-                    <th class="px-6 py-3 bg-gray-50 text-left">
-                        <span class="text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Product</span>
+                    <th class="bg-gray-50 px-6 py-3 text-left">
+                        <span class="text-xs font-medium uppercase leading-4 tracking-wider text-gray-500">Product</span>
                     </th>
-                    <th class="px-6 py-3 bg-gray-50 text-left">
-                        <span class="text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Price</span>
+                    <th class="bg-gray-50 px-6 py-3 text-left">
+                        <span class="text-xs font-medium uppercase leading-4 tracking-wider text-gray-500">Price</span>
                     </th>
-                    <th class="px-6 py-3 bg-gray-50 text-left">
-                        <span class="text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Quantity</span>
+                    <th class="bg-gray-50 px-6 py-3 text-left">
+                        <span class="text-xs font-medium uppercase leading-4 tracking-wider text-gray-500">Quantity</span>
                     </th>
                 </tr>
             </thead>
@@ -37,10 +37,19 @@
                             {{ $product->name }}
                         </td>
                         <td class="px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
-                            ${{ number_format($product->price, 2) }}
+                            @if (!empty($updatedPrices) && array_key_exists($product->id, $updatedPrices))
+                                <span class="text-xs">(${{ number_format($oldPrices[$product->id], 2) }})</span> ${{ number_format($updatedPrices[$product->id], 2) }}
+                            @else
+                                ${{ number_format($product->price, 2) }}
+                            @endif
                         </td>
                         <td class="px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
-                            <input wire:model="items.{{ $product->id }}" @click="updateTotal({{ $product->id }}, $event.target.value)" type="number" min="0" />
+                            <div class="flex flex-col">
+                                <input wire:model="items.{{ $product->id }}" @click="updateTotal({{ $product->id }}, $event.target.value)" type="number" min="0" />
+                                @error("quantity.{$product->id}")
+                                    <span class="mt-2 text-red-600">{{ $message }}</span>
+                                @enderror
+                            </div>
                         </td>
                     </tr>
                 @endforeach
@@ -56,3 +65,13 @@
         <x-button>Place Order</x-button>
     </form>
 </div>
+
+@push('scripts')
+    <script>
+        /*window.addEventListener('DOMContentLoaded', () => {
+            window.Livewire.on('updateTotalPrice', value => {
+                this.totalPrice = value;
+            })
+        })*/
+    </script>
+@endpush

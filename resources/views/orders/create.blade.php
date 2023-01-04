@@ -10,9 +10,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="overflow-hidden overflow-x-auto p-6 bg-white border-b border-gray-200">
                     <div class="min-w-full align-middle">
-                        <x-validation-errors class="mb-4" :errors="$errors" />
-
-                        @livewire('new-order', ['products' => $products])
+                        @livewire('new-order')
                     </div>
                 </div>
             </div>

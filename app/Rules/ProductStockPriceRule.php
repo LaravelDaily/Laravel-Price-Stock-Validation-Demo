@@ -3,10 +3,9 @@
 namespace App\Rules;
 
 use App\Models\Product;
-use Illuminate\Contracts\Validation\DataAwareRule;
 use Illuminate\Contracts\Validation\InvokableRule;
 
-class ProductStockPriceRule implements InvokableRule, DataAwareRule
+class ProductStockPriceRule implements InvokableRule
 {
     /**
      * All of the data under validation.
@@ -15,19 +14,9 @@ class ProductStockPriceRule implements InvokableRule, DataAwareRule
      */
     protected array $data = [];
 
-    // ...
-
-    /**
-     * Set the data under validation.
-     *
-     * @param  array  $data
-     * @return $this
-     */
-    public function setData($data)
+    public function __construct(array $prices = [])
     {
-        $this->data = $data;
-
-        return $this;
+        $this->data['prices'] = $prices;
     }
 
     /**
